@@ -159,4 +159,59 @@ describe('PathFinding', function() {
 
     });
   });
+
+  describe('#distances', function() {
+    it('It should acurately find the best path when there are long distances between nodes', function() {
+      /* Looks something like:
+       * 1-----------2
+       * |           |
+       * |   5--6    |
+       * 3---4  7----8
+       */
+      var node1 = new Node(1, 0, 0);
+      var node2 = new Node(2, 12, 0);
+      var node3 = new Node(3, 0, 3);
+      var node4 = new Node(4, 4, 3);
+      var node5 = new Node(5, 4, 2);
+      var node6 = new Node(6, 7, 2);
+      var node7 = new Node(7, 7, 3);
+      var node8 = new Node(8, 12, 3);
+      node1.addNeighbor(node2);
+      node1.addNeighbor(node3);
+      node2.addNeighbor(node8);
+      node3.addNeighbor(node4);
+      node4.addNeighbor(node5);
+      node5.addNeighbor(node6);
+      node6.addNeighbor(node7);
+      node7.addNeighbor(node8);
+
+      const map1 = new Map([
+        node1, node2, node3,
+        node4, node5, node6,
+        node7, node8,
+      ]);
+
+      const bestPath = findBestPath({
+        map: map1,
+        startNode: node1,
+        dest: node8
+      });
+      assert.equal(bestPath.distanceAway, 15);
+      assert.deepEqual(bestPath.pathToNode, [node1, node2]);
+
+      node1.addNeighbor(node8);
+
+      const bestPath2 = findBestPath({
+        map: map1,
+        startNode: node1,
+        dest: node8
+      });
+
+      console.log(bestPath);
+
+      assert.equal(bestPath.distanceAway, Math.sqrt(Math.pow(12, 2) + Math.pow(3, 2)));
+      assert.deepEqual(bestPath.pathToNode, [node1]);
+
+    });
+  });
 });
