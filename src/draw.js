@@ -2,7 +2,7 @@ const CliGraph = require('cli-graph');
 
 module.exports = ({
   map, magnify = 1, xPadding = 5, yPadding = 5,
-  start, end, path,
+  start, end, path = [], visited = [],
 }) => {
   const { x, y } = map.dimensions();
 

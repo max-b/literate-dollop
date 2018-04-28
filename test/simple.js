@@ -228,6 +228,14 @@ describe('PathFinding', () => {
       assert.equal(naiveResults.bestPath.distanceAway, 15);
       assert.deepEqual(naiveResults.bestPath.pathToNode, [node1, node2]);
 
+      console.log(draw({
+        map: map1,
+        start: node1,
+        end: node8,
+        path: naiveResults.bestPath.pathToNode,
+        visited: naiveResults.visited,
+      }));
+
       const heuristic = node => Node.getDistance(node, node8);
 
       const aResults = findBestPath({
@@ -242,6 +250,7 @@ describe('PathFinding', () => {
         start: node1,
         end: node8,
         path: aResults.bestPath.pathToNode,
+        visited: aResults.visited,
       }));
 
       assert.equal(aResults.bestPath.distanceAway, 15);

@@ -37,7 +37,7 @@ const findBestPath = ({
     iterations += 1;
   }
 
-  return { bestPath: dest, iterations };
+  return { bestPath: dest, iterations, visited };
 };
 
 module.exports = findBestPath;
