@@ -9,7 +9,6 @@ module.exports = ({
   const graph = new CliGraph({
     height: (y.length * magnify) + yPadding,
     width: (x.length * magnify) + xPadding,
-    aRatio: x.length / y.length,
     center: {
       x: (x.min * magnify) + xPadding,
       y: ((y.max * magnify) + yPadding) - 1,

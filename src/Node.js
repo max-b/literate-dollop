@@ -35,7 +35,9 @@ class Node {
     if (_.includes(this.neighbors, n)) {
       this.neighbors = this.neighbors.filter(node => node !== n);
     }
-    n.removeNeighbor(this);
+    if (_.includes(n.neighbors, this)) {
+      n.removeNeighbor(this);
+    }
   }
 
   static getDistance(n1, n2) {

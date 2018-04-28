@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cli-graph": "^3.2.2",
     "lodash": "^4.17.5"
   },
   "devDependencies": {

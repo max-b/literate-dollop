@@ -63,6 +63,13 @@ describe('PathFinding', () => {
       });
       assert.equal(bestPath.distanceAway, 4);
       assert.deepEqual(bestPath.pathToNode, [node1, node2]);
+
+      console.log(draw({
+        map: map1,
+        start: node1,
+        end: node3,
+        path: bestPath.pathToNode,
+      }));
     });
   });
 
@@ -106,7 +113,13 @@ describe('PathFinding', () => {
         dest: node9,
       });
       assert.equal(bestPath.distanceAway, 5);
-      // assert.deepEqual(bestPath.pathToNode, [node1, node2, node4, node6, node7]);
+
+      console.log(draw({
+        map: map1,
+        start: node1,
+        end: node9,
+        path: bestPath.pathToNode,
+      }));
     });
   });
 
@@ -150,6 +163,12 @@ describe('PathFinding', () => {
       });
       assert.equal(bestPath.distanceAway, 4.23606797749979);
       assert.deepEqual(bestPath.pathToNode, [node1, node2, node3]);
+      console.log(draw({
+        map: map1,
+        start: node1,
+        end: node8,
+        path: bestPath.pathToNode,
+      }));
 
       node3.removeNeighbor(node8);
 
@@ -161,6 +180,12 @@ describe('PathFinding', () => {
 
       assert.equal(bestPath.distanceAway, 4.414213562373095);
       assert.deepEqual(bestPath.pathToNode, [node1, node5, node6, node7]);
+      console.log(draw({
+        map: map1,
+        start: node1,
+        end: node8,
+        path: bestPath.pathToNode,
+      }));
     });
   });
 
@@ -212,8 +237,12 @@ describe('PathFinding', () => {
         heuristic,
       });
 
-      bestPath = aResults.bestPath;
-      iterations = aResults.iterations;
+      console.log(draw({
+        map: map1,
+        start: node1,
+        end: node8,
+        path: aResults.bestPath.pathToNode,
+      }));
 
       assert.equal(aResults.bestPath.distanceAway, 15);
       assert.deepEqual(aResults.bestPath.pathToNode, [node1, node2]);
