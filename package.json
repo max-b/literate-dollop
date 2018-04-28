@@ -5,7 +5,8 @@
   "main": "search.js",
   "scripts": {
     "test": "mocha",
-    "test-watch": "mocha -w"
+    "test-watch": "mocha -w",
+    "lint": "eslint src test"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +14,9 @@
     "lodash": "^4.17.5"
   },
   "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0",
     "mocha": "^5.0.5"
   }
 }
