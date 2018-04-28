@@ -3,7 +3,7 @@ const _ = require('lodash');
 const Node = require('./Node');
 const Map = require('./Map');
 
-const findBestPath = ({ map, startNode, dest }) => {
+const findBestPath = ({ map, startNode, dest, heuristic = () => 0 }) => {
   map.nodes.forEach(n => n.initSearch());
   startNode.distanceAway = 0;
 
@@ -29,18 +29,17 @@ const findBestPath = ({ map, startNode, dest }) => {
 
       if (dist + cursor.distanceAway < n.distanceAway) {
         n.distanceAway = dist + cursor.distanceAway;
-        debugger;
         n.pathToNode = [...cursor.pathToNode, cursor];
       }
 
     });
 
-    cursor = _.minBy(toVisit, n => n.distanceAway);
+    cursor = _.minBy(toVisit, n => n.distanceAway + heuristic(n));
     iterations++;
 
-  } while (toVisit.length > 0)
+  } while (cursor !== dest)
 
-  return dest;
+  return { bestPath: dest, iterations };
 }
 
 module.exports = findBestPath;

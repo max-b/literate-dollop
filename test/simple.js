@@ -51,10 +51,10 @@ describe('PathFinding', function() {
 
       const map1 = new Map([node1, node2, node3]);
 
-      const bestPath = findBestPath({
+      let { bestPath } = findBestPath({
         map: map1,
         startNode: node1,
-        dest: node3
+        dest: node3,
       });
       assert.equal(bestPath.distanceAway, 4);
       assert.deepEqual(bestPath.pathToNode, [node1, node2]);
@@ -95,10 +95,10 @@ describe('PathFinding', function() {
         node7, node8, node9
       ]);
 
-      const bestPath = findBestPath({
+      let { bestPath } = findBestPath({
         map: map1,
         startNode: node1,
-        dest: node9
+        dest: node9,
       });
       assert.equal(bestPath.distanceAway, 5);
       // assert.deepEqual(bestPath.pathToNode, [node1, node2, node4, node6, node7]);
@@ -138,21 +138,21 @@ describe('PathFinding', function() {
         node7, node8, node9
       ]);
 
-      const bestPath = findBestPath({
+      let { bestPath } = findBestPath({
         map: map1,
         startNode: node1,
-        dest: node8
+        dest: node8,
       });
       assert.equal(bestPath.distanceAway, 4.23606797749979);
       assert.deepEqual(bestPath.pathToNode, [node1, node2, node3]);
 
       node3.removeNeighbor(node8);
 
-      const bestPath2 = findBestPath({
+      ({ bestPath } = findBestPath({
         map: map1,
         startNode: node1,
-        dest: node8
-      });
+        dest: node8,
+      }));
 
       assert.equal(bestPath.distanceAway, 4.414213562373095);
       assert.deepEqual(bestPath.pathToNode, [node1, node5, node6, node7]);
@@ -160,8 +160,8 @@ describe('PathFinding', function() {
     });
   });
 
-  describe('#distances', function() {
-    it('It should acurately find the best path when there are long distances between nodes', function() {
+  describe('#A* improvement', function() {
+    it('A* should be more efficient', function() {
       /* Looks something like:
        * 1-----------2
        * |           |
@@ -191,26 +191,32 @@ describe('PathFinding', function() {
         node7, node8,
       ]);
 
-      const bestPath = findBestPath({
+      let naiveResults = findBestPath({
         map: map1,
         startNode: node1,
-        dest: node8
+        dest: node8,
       });
-      assert.equal(bestPath.distanceAway, 15);
-      assert.deepEqual(bestPath.pathToNode, [node1, node2]);
+      assert.equal(naiveResults.bestPath.distanceAway, 15);
+      assert.deepEqual(naiveResults.bestPath.pathToNode, [node1, node2]);
 
-      node1.addNeighbor(node8);
+      let heuristic = (node) => {
+        return Node.getDistance(node, node8);
+      }
 
-      const bestPath2 = findBestPath({
+      let aResults = findBestPath({
         map: map1,
         startNode: node1,
-        dest: node8
+        dest: node8,
+        heuristic,
       });
 
-      console.log(bestPath);
+      bestPath = aResults.bestPath;
+      iterations = aResults.iterations;
 
-      assert.equal(bestPath.distanceAway, Math.sqrt(Math.pow(12, 2) + Math.pow(3, 2)));
-      assert.deepEqual(bestPath.pathToNode, [node1]);
+      assert.equal(aResults.bestPath.distanceAway, 15);
+      assert.deepEqual(aResults.bestPath.pathToNode, [node1, node2]);
+
+      assert(aResults.iterations < naiveResults.iterations);
 
     });
   });
